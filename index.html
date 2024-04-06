@@ -16,6 +16,7 @@
           <p>
             By
             <a
+              class="underline"
               href="https://github.com/JoeMcCleery"
               title="JoeMcCleery Github"
               target="_blank"
@@ -24,18 +25,21 @@
           </p>
         </div>
 
-        <a
-          class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-700 hover:bg-slate-600"
-          href="#content"
-          title="Scroll to content"
-          >↓</a
-        >
+        <nav>
+          <button
+            class="flex h-8 w-8 select-none items-center justify-center rounded-full bg-slate-700 hover:bg-slate-600"
+            id="scrollButton"
+            title="Scroll to content"
+          >
+            ↓
+          </button>
+        </nav>
       </div>
     </header>
 
-    <section id="content">
-      <canvas class="min-h-screen w-full"></canvas>
-    </section>
+    <main class="flex min-h-screen items-center justify-center" id="main">
+      <p id="loading">Loading...</p>
+    </main>
 
     <footer class="bg-slate-400 p-8 text-slate-800">
       <div class="container m-auto flex items-center justify-center">

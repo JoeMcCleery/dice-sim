@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/three": "^0.163.0",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
@@ -22,7 +23,13 @@
     "vite": "^5.2.0"
   },
   "dependencies": {
-    "jolt-physics": "^0.22.0",
-    "three": "^0.163.0"
+    "@types/matter-js": "0.17.6",
+    "@types/three": "0.161.2",
+    "enable3d": "^0.25.4",
+    "matter-js": "0.17.1",
+    "phaser": "^3.55.2",
+    "poly-decomp": "^0.3.0",
+    "three": "0.161.0",
+    "three-csg-ts": "^3.1.10"
   }
 }
