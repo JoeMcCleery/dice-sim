@@ -1,11 +1,15 @@
-import { Project, Scene3D, PhysicsLoader } from "enable3d";
+import { Project, Scene3D, PhysicsLoader, THREE } from "enable3d";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
+/** Get width of screen excluding scroll bars */
 const getWidth = () => document.getElementsByTagName("html")[0].clientWidth;
 
 class MainScene extends Scene3D {
   constructor() {
     super();
   }
+
+  controls: OrbitControls;
 
   async init() {
     document.getElementById("loading")?.remove();
@@ -28,11 +32,17 @@ class MainScene extends Scene3D {
     // set up scene
     this.warpSpeed("-orbitControls");
 
+    // Setup custom controls
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enablePan = false;
+
     // enable physics debug
     this.physics.debug?.enable();
 
     // pink box (with physics)
-    this.physics.add.box({ y: 10 }, { lambert: { color: "aqua" } });
+    const box = this.physics.add.box({ y: 5 }, { lambert: { color: "aqua" } });
+    box.body.applyCentralImpulse(Math.random(), Math.random(), Math.random());
+    box.body.applyTorqueImpulse(Math.random(), Math.random(), Math.random());
   }
 
   update() {}
