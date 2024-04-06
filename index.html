@@ -4,10 +4,40 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
+    <title>3D Dice Simulator</title>
   </head>
   <body>
-    <div id="app"></div>
+    <header class="bg-slate-400 p-8 text-slate-50">
+      <div class="container m-auto text-center">
+        <h1 class="text-3xl font-bold">3D Dice Simulator</h1>
+        <p>
+          By
+          <a
+            href="https://github.com/JoeMcCleery"
+            title="JoeMcCleery Github"
+            target="_blank"
+            >Joe McCleery</a
+          >
+        </p>
+      </div>
+    </header>
+
+    <section>
+      <canvas class="min-h-screen w-full"></canvas>
+    </section>
+
+    <footer class="bg-slate-400 p-8 text-slate-800">
+      <div class="container m-auto text-center">
+        <a
+          class="rounded-full bg-white px-4 py-2 hover:bg-slate-100"
+          href="https://github.com/JoeMcCleery/dice-sim"
+          title="View source code on github"
+          target="_blank"
+          >View Source Code</a
+        >
+      </div>
+    </footer>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
