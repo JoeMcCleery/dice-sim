@@ -4,10 +4,8 @@ document
 
 function scrollToMain(e: MouseEvent) {
   e.preventDefault();
-  const top = document.getElementById("main")?.offsetTop;
-
   window.scrollTo({
-    top: top,
+    top: document.getElementById("main")?.offsetTop,
     behavior: "smooth",
   });
 }
