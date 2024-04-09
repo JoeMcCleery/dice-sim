@@ -37,14 +37,10 @@ function ControlPanel() {
         <input
           type="submit"
           value="Roll!"
-          className="btn"
+          className="btn-blue"
           title="Roll the dice!"
         />
-        <button
-          className="btn bg-red-500 hover:bg-red-600"
-          onClick={reset}
-          title="Reset dice counts"
-        >
+        <button className="btn-red" onClick={reset} title="Reset dice counts">
           Reset
         </button>
       </div>
