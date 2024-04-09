@@ -15,7 +15,12 @@ function ControlPanel() {
     });
   }
 
-  function reset(e: MouseEvent<HTMLButtonElement>) {
+  function submit(e: MouseEvent<HTMLInputElement>) {
+    e.preventDefault();
+    console.log(values);
+  }
+
+  function reset(e: MouseEvent<HTMLInputElement>) {
     e.preventDefault();
     setValues(defaultValues);
   }
@@ -37,12 +42,17 @@ function ControlPanel() {
         <input
           type="submit"
           value="Roll!"
-          className="btn-blue"
           title="Roll the dice!"
+          className="btn-blue"
+          onClick={submit}
         />
-        <button className="btn-red" onClick={reset} title="Reset dice counts">
-          Reset
-        </button>
+        <input
+          type="reset"
+          value="Reset"
+          title="Reset dice counts"
+          className="btn-red"
+          onClick={reset}
+        />
       </div>
     </form>
   );

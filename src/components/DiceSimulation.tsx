@@ -1,75 +1,41 @@
-import {
-  DirectionalLight,
-  MeshBuilder,
-  PhysicsAggregate,
-  PhysicsShapeType,
-  Scene,
-  ShadowGenerator,
-  Vector3,
-} from '@babylonjs/core';
-import SceneComponent from './SceneComponent';
+import { Mesh, PhysicsBody, Scene } from '@babylonjs/core';
+import { DiceType } from 'types/dice';
 import { createCamera } from 'scripts/camera';
+import { createDirectionalLight, createHemisphericLight } from 'scripts/lights';
+import { createDice } from 'scripts/dice';
+import { createEnvironment } from 'scripts/environment';
+import SceneComponent from './SceneComponent';
+import { createPhysicsViewer } from 'scripts/debug';
+
+type DiceSimulationProps = {
+  diceCounts: number[];
+};
 
 function DiceSimulation() {
+  const dice: (readonly [Mesh, PhysicsBody])[] = [];
+
   function onSceneReady(scene: Scene) {
     // Create camera
     createCamera(scene);
 
     // Create light
-    const light = new DirectionalLight(
-      'light',
-      new Vector3(0, -1, -0.5),
-      scene,
-    );
-    light.intensity = 0.9;
-    light.position.y = 100;
-    const shadowGenerator = new ShadowGenerator(1024, light);
+    const [light, shadowGenerator] = createDirectionalLight(scene);
+    createHemisphericLight(scene);
 
     // Create environment
-    const ground = MeshBuilder.CreateGround(
-      'ground',
-      { width: 20, height: 20 },
-      scene,
-    );
-    ground.receiveShadows = true;
-    new PhysicsAggregate(ground, PhysicsShapeType.BOX, { mass: 0 }, scene);
+    createEnvironment(scene);
 
-    // Built-in 'sphere' shape.
-    const box = MeshBuilder.CreateBox(
-      'sphere',
-      { width: 1, height: 1, depth: 1 },
-      scene,
-    );
-    shadowGenerator.addShadowCaster(box);
-    box.position.y = 5;
-    box.rotation = new Vector3(
-      Math.random() * Math.PI,
-      Math.random() * Math.PI,
-      Math.random() * Math.PI,
-    );
-    const boxAggregate = new PhysicsAggregate(
-      box,
-      PhysicsShapeType.BOX,
-      { mass: 1, restitution: 0.75 },
-      scene,
-    );
-    boxAggregate.body.setLinearVelocity(
-      new Vector3(
-        (Math.random() * 2 - 1) * 5,
-        (Math.random() * 2 - 1) * 5,
-        (Math.random() * 2 - 1) * 5,
-      ),
-    );
-    boxAggregate.body.setAngularVelocity(
-      new Vector3(
-        (Math.random() * 2 - 1) * 5,
-        (Math.random() * 2 - 1) * 5,
-        (Math.random() * 2 - 1) * 5,
-      ),
-    );
+    // DEBUG
+    dice.push(createDice(scene, DiceType.D8, 5, shadowGenerator));
+    dice.push(createDice(scene, DiceType.D20, 5, shadowGenerator));
+
+    // DEBUG
+    //createPhysicsViewer(scene);
   }
 
-  function onRender(scene: Scene) {}
+  function onRender(scene: Scene) {
+    dice.forEach(([mesh]) => mesh.thinInstanceRefreshBoundingInfo());
+  }
 
   return <SceneComponent onSceneReady={onSceneReady} onRender={onRender} />;
 }

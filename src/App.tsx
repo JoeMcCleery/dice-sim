@@ -1,39 +1,13 @@
-import ControlPanel from 'components/ControlPanel';
-import DiceSimulation from 'components/DiceSimulation';
+import Header from 'components/Header';
+import Main from 'components/Main';
+import Footer from 'components/Footer';
 
 function App() {
   return (
-    <div className="grid size-full grid-cols-1 grid-rows-[auto_1fr_auto] bg-teal-800 text-teal-50">
-      <header className="bg-teal-500 p-4 text-center">
-        <h1 className="bold text-3xl">3D Dice Simulator</h1>
-      </header>
-      <main className="m-auto grid size-full max-w-screen-lg grid-cols-1 grid-rows-[1fr_auto] lg:grid-cols-[1fr_auto] lg:grid-rows-1 lg:p-4">
-        <div id="container" className="relative">
-          <DiceSimulation />
-        </div>
-        <div className="flex w-full flex-col items-center justify-center bg-teal-500 p-4">
-          <ControlPanel />
-        </div>
-      </main>
-      <footer className="space-x-4 bg-teal-600 p-2 text-center">
-        By{' '}
-        <a
-          href="https://github.com/JoeMcCleery"
-          target="_blank"
-          className="underline"
-          title="Joe McCleery Github Page"
-        >
-          Joe McC
-        </a>
-        <a
-          href="https://github.com/JoeMcCleery/dice-sim"
-          target="_blank"
-          className="underline"
-          title="Dice Simulator Github Page"
-        >
-          View Source Code
-        </a>
-      </footer>
+    <div className="grid min-h-full grid-cols-1 grid-rows-[auto_1fr_auto] bg-teal-800 text-teal-50">
+      <Header />
+      <Main />
+      <Footer />
     </div>
   );
 }
