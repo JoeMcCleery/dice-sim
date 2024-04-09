@@ -7,10 +7,6 @@ import { createEnvironment } from 'scripts/environment';
 import SceneComponent from './SceneComponent';
 import { createPhysicsViewer } from 'scripts/debug';
 
-type DiceSimulationProps = {
-  diceCounts: number[];
-};
-
 function DiceSimulation() {
   const dice: (readonly [Mesh, PhysicsBody])[] = [];
 
