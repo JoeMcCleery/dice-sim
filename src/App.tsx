@@ -1,4 +1,5 @@
 import ControlPanel from 'components/ControlPanel';
+import DiceSimulation from 'components/DiceSimulation';
 
 function App() {
   return (
@@ -7,13 +8,8 @@ function App() {
         <h1 className="bold text-3xl">3D Dice Simulator</h1>
       </header>
       <main className="m-auto grid size-full max-w-screen-lg grid-cols-1 grid-rows-[1fr_auto] lg:grid-cols-[1fr_auto] lg:grid-rows-1 lg:p-4">
-        <div id="container">
-          <div
-            id="loading"
-            className="flex size-full items-center justify-center bg-teal-700"
-          >
-            <p className="animate-pulse text-3xl">Loading</p>
-          </div>
+        <div id="container" className="relative">
+          <DiceSimulation />
         </div>
         <div className="flex w-full flex-col items-center justify-center bg-teal-500 p-4">
           <ControlPanel />
