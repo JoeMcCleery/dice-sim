@@ -28,6 +28,7 @@ export const createEnvironment = () => {
     new Vector3(1, 200, 20),
     scene,
   );
+  wallShape.material = { restitution: 1 };
   // Left
   const wall_l = new TransformNode('wall_l');
   wall_l.position.x = -10.5;
