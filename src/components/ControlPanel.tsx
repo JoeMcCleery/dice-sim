@@ -19,7 +19,9 @@ function ControlPanel() {
 
   function submit(e: MouseEvent<HTMLInputElement>) {
     e.preventDefault();
+    // Cannot throw dice without scene
     if (!scene || scene.isDisposed) return;
+    // Throw the dice!
     for (let i = 0; i < values.length; i++) {
       throwDice(diceTypes[i], values[i]);
     }
