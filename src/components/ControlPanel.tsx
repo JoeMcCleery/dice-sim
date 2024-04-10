@@ -1,10 +1,12 @@
 import { DiceType } from 'types/dice';
 import DiceSelector from 'components/DiceSelector';
 import { MouseEvent, useState } from 'react';
+import { throwDice } from 'scripts/dice';
+import { scene } from 'scripts/scene';
 
 function ControlPanel() {
   const diceTypes = Object.values(DiceType);
-  const defaultValues = [0, 0, 0, 0, 0, 0];
+  const [defaultValues, setDefaultValues] = useState([0, 0, 0, 0, 0, 0]);
   const [values, setValues] = useState(defaultValues);
 
   function onChange(type: DiceType, value: number) {
@@ -17,7 +19,10 @@ function ControlPanel() {
 
   function submit(e: MouseEvent<HTMLInputElement>) {
     e.preventDefault();
-    console.log(values);
+    if (!scene || scene.isDisposed) return;
+    for (let i = 0; i < values.length; i++) {
+      throwDice(diceTypes[i], values[i]);
+    }
   }
 
   function reset(e: MouseEvent<HTMLInputElement>) {

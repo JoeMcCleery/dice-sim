@@ -1,4 +1,5 @@
 import {
+  AbstractMesh,
   DirectionalLight,
   HemisphericLight,
   ShadowGenerator,
@@ -6,18 +7,21 @@ import {
 } from '@babylonjs/core';
 import { scene } from './scene';
 
+export let directionalLight: DirectionalLight;
 export let shadowGenerator: ShadowGenerator;
 
 export const createDirectionalLight = () => {
-  const directionalLight = new DirectionalLight(
+  directionalLight = new DirectionalLight(
     'directional',
     new Vector3(0, -1, -0.5),
     scene,
   );
   directionalLight.intensity = 0.5;
+  directionalLight.autoUpdateExtends = true;
   directionalLight.autoCalcShadowZBounds = true;
   shadowGenerator = new ShadowGenerator(512, directionalLight);
-  shadowGenerator.bias = 0.01;
+  shadowGenerator.bias = 0;
+  shadowGenerator.forceBackFacesOnly = true;
 };
 
 export const createHemisphericLight = () => {
@@ -27,4 +31,13 @@ export const createHemisphericLight = () => {
     scene,
   );
   hemisphericLight.intensity = 0.2;
+};
+
+export const enableShadows = (mesh: AbstractMesh, enable: boolean) => {
+  mesh.receiveShadows = enable;
+  if (enable) {
+    shadowGenerator.addShadowCaster(mesh, true);
+  } else {
+    shadowGenerator.removeShadowCaster(mesh, true);
+  }
 };
