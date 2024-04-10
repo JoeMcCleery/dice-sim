@@ -36,8 +36,8 @@ export const createHemisphericLight = () => {
 export const enableShadows = (mesh: AbstractMesh, enable: boolean) => {
   mesh.receiveShadows = enable;
   if (enable) {
-    shadowGenerator.addShadowCaster(mesh, true);
+    shadowGenerator.addShadowCaster(mesh);
   } else {
-    shadowGenerator.removeShadowCaster(mesh, true);
+    shadowGenerator.removeShadowCaster(mesh);
   }
 };
