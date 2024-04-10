@@ -30,7 +30,7 @@ export const createEnvironment = () => {
   );
   // Left
   const wall_l = new TransformNode('wall_l');
-  wall_l.position.x = 10.5;
+  wall_l.position.x = -10.5;
   const wallBody_l = new PhysicsBody(
     wall_l,
     PhysicsMotionType.STATIC,
@@ -40,7 +40,7 @@ export const createEnvironment = () => {
   wallBody_l.shape = wallShape;
   // Right
   const wall_r = new TransformNode('wall_r');
-  wall_r.position.x = -10.5;
+  wall_r.position.x = 10.5;
   const wallBody_r = new PhysicsBody(
     wall_r,
     PhysicsMotionType.STATIC,
@@ -50,7 +50,7 @@ export const createEnvironment = () => {
   wallBody_r.shape = wallShape;
   // Back
   const wall_b = new TransformNode('wall_b');
-  wall_b.position.z = -10.5;
+  wall_b.position.z = 10.5;
   wall_b.rotation = new Vector3(0, Math.PI / 2, 0);
   const wallBody_b = new PhysicsBody(
     wall_b,
@@ -61,7 +61,7 @@ export const createEnvironment = () => {
   wallBody_b.shape = wallShape;
   // Front
   const wall_f = new TransformNode('wall_f');
-  wall_f.position.z = 10.5;
+  wall_f.position.z = -10.5;
   wall_f.rotation = new Vector3(0, Math.PI / 2, 0);
   const wallBody_f = new PhysicsBody(
     wall_f,

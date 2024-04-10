@@ -13,14 +13,13 @@ export let shadowGenerator: ShadowGenerator;
 export const createDirectionalLight = () => {
   directionalLight = new DirectionalLight(
     'directional',
-    new Vector3(0, -1, -0.5),
+    new Vector3(0, -1, 0.5),
     scene,
   );
   directionalLight.intensity = 0.5;
-  directionalLight.autoUpdateExtends = true;
   directionalLight.autoCalcShadowZBounds = true;
   shadowGenerator = new ShadowGenerator(512, directionalLight);
-  shadowGenerator.bias = 0;
+  shadowGenerator.bias = -0.0005;
   shadowGenerator.forceBackFacesOnly = true;
 };
 
