@@ -7,7 +7,7 @@ type DiceSelectorProps = {
 };
 
 function DiceSelector({ type, value, onChange }: DiceSelectorProps) {
-  const options = Array.from(Array(11).keys());
+  const options = Array.from(Array(51).keys());
 
   function decrease() {
     onChange(type, Math.max(value - 1, 0));
