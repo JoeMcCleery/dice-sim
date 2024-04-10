@@ -6,12 +6,12 @@ import {
   PhysicsShapeBox,
   PhysicsShapeType,
   Quaternion,
-  Scene,
   TransformNode,
   Vector3,
 } from '@babylonjs/core';
+import { scene } from './scene';
 
-export const createEnvironment = (scene: Scene) => {
+export const createEnvironment = () => {
   // Create ground
   const ground = MeshBuilder.CreateGround(
     'ground',

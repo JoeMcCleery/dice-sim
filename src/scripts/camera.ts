@@ -1,11 +1,11 @@
 import {
   ArcRotateCamera,
   ArcRotateCameraPointersInput,
-  Scene,
   Vector3,
 } from '@babylonjs/core';
+import { scene } from './scene';
 
-export const createCamera = (scene: Scene) => {
+export const createCamera = () => {
   const camera = new ArcRotateCamera('camera1', 0, 0, 0, Vector3.Zero(), scene);
   camera.panningSensibility = 0;
   camera.upperBetaLimit = Math.PI / 2.1;

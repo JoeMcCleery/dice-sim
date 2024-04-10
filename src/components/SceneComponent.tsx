@@ -1,17 +1,10 @@
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
-import {
-  Engine,
-  Scene,
-  HavokPlugin,
-  Vector3,
-  SceneOptimizer,
-  ScenePerformancePriority,
-} from '@babylonjs/core';
-import HavokPhysics from '@babylonjs/havok';
+import { Engine } from '@babylonjs/core';
+import { createScene, scene } from 'scripts/scene';
 
 type SceneComponentProps = {
-  onSceneReady: (scene: Scene) => void;
-  onRender: (scene: Scene) => void;
+  onSceneReady: () => void;
+  onRender: () => void;
 };
 
 function SceneComponent({ onSceneReady, onRender }: SceneComponentProps) {
@@ -19,56 +12,48 @@ function SceneComponent({ onSceneReady, onRender }: SceneComponentProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const { current: canvas } = reactCanvas;
-
+    // Get canvas element
+    const canvas = reactCanvas.current;
     if (!canvas) return;
 
+    // Create engine
     const engine = new Engine(canvas);
 
-    const createScene = async () => {
-      const scene = new Scene(engine);
-
-      // Physics
-      const havokInstance = await HavokPhysics();
-      scene.enablePhysics(
-        new Vector3(0, -50, 0),
-        new HavokPlugin(true, havokInstance),
-      );
-
-      // Optimisations
-      scene.autoClearDepthAndStencil = false;
-      scene.performancePriority = ScenePerformancePriority.Aggressive;
-      SceneOptimizer.OptimizeAsync(scene);
-
-      await scene.whenReadyAsync();
-
-      setLoading(false);
-      onSceneReady(scene);
-
-      return scene;
-    };
-
-    // Fit canvas to container
+    // Resize canvas
     const resize = () => {
-      const container = document.getElementById('container');
-      if (!container) return;
-      reactCanvas.current!.width = container.clientWidth;
-      reactCanvas.current!.height = container.clientHeight;
-      engine.resize();
+      engine.setSize(
+        canvas.parentElement!.clientWidth,
+        canvas.parentElement!.clientHeight,
+      );
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Render loop
+    const render = () => {
+      onRender();
+      scene.render();
     };
 
-    createScene().then(scene => {
-      resize();
-      window.addEventListener('resize', resize);
-      engine.runRenderLoop(() => {
-        onRender(scene);
-        scene.render();
-      });
+    // Create scene
+    createScene(engine).then(async () => {
+      // Exit early if engine was disposed during scene creation
+      if (engine.isDisposed) return;
+
+      // Scene ready callback
+      await onSceneReady();
+      setLoading(false);
+
+      // Run render loop
+      engine.runRenderLoop(() => render());
     });
 
+    // Dispose
     return () => {
+      // Dispose engine
       engine.dispose();
 
+      // Remove resize event listener
       if (window) {
         window.removeEventListener('resize', resize);
       }
