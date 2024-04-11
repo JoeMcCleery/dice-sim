@@ -2,7 +2,7 @@
 
 Roll the dice!
 
-Built using vite + react + tailwindcss + babylon.js
+Built using vite + react + tailwindcss + babylon.js + havok
 
 ## How to Use
 
