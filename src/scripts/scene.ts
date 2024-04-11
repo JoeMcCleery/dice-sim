@@ -16,7 +16,7 @@ export const createScene = async (engine: Engine) => {
 
   // Scene optimisations
   scene.autoClearDepthAndStencil = false;
-  //scene.performancePriority = ScenePerformancePriority.Aggressive;
+  scene.performancePriority = ScenePerformancePriority.BackwardCompatible;
   SceneOptimizer.OptimizeAsync(scene);
 
   // Enable havok physics

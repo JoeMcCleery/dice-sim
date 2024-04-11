@@ -2,7 +2,7 @@ import { createCamera } from 'scripts/camera';
 import { createDirectionalLight, createHemisphericLight } from 'scripts/lights';
 import { initDiceAsync } from 'scripts/dice';
 import { createEnvironment } from 'scripts/environment';
-import { createPhysicsViewer } from 'scripts/debug';
+//import { createPhysicsViewer } from 'scripts/debug';
 import SceneComponent from './SceneComponent';
 
 function DiceSimulation() {

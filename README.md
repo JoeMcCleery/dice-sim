@@ -21,4 +21,7 @@ yarn preview
 
 # Lint files
 yarn lint
+
+# Publish build to github pages (note: run build command first)
+yarn run publish
 ```

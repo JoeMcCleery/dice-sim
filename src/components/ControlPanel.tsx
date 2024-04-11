@@ -6,7 +6,7 @@ import { scene } from 'scripts/scene';
 
 function ControlPanel() {
   const diceTypes = Object.values(DiceType);
-  const [defaultValues, setDefaultValues] = useState([0, 0, 0, 0, 0, 0]);
+  const [defaultValues] = useState([0, 0, 0, 0, 0, 0]);
   const [values, setValues] = useState(defaultValues);
 
   function onChange(type: DiceType, value: number) {

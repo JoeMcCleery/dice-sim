@@ -9,7 +9,7 @@ import {
 import { DiceType } from 'types/dice';
 import { enableShadows } from './lights';
 import { scene } from './scene';
-import { physicsViewer } from './debug';
+//import { physicsViewer } from './debug';
 
 export let diceMeshes: { [type in DiceType]: Mesh };
 export let diceShapes: { [type in DiceType]: PhysicsShapeConvexHull };
