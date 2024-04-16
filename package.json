@@ -9,7 +9,7 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "publish": "gh-pages -d dist --nojekyll --cname dice.fearindigo.com.au"
+    "deploy": "gh-pages -d dist --nojekyll --cname dice.fearindigo.com.au"
   },
   "dependencies": {
     "@babylonjs/core": "^7.1.0",
