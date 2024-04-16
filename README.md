@@ -24,4 +24,7 @@ yarn lint
 
 # Deploy build to github pages (note: run build command first)
 yarn deploy
+
+# Build for production then deploy to github pages (equivilent to running "yarn build" then "yarn deploy")
+yarn build-deploy
 ```
