@@ -1,6 +1,7 @@
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Engine } from '@babylonjs/core';
 import { createScene, scene } from 'scripts/scene';
+import CameraRefresh from './CameraRefresh';
 
 type SceneComponentProps = {
   onSceneReady: () => Promise<void>;
@@ -66,10 +67,12 @@ function SceneComponent({ onSceneReady, onRender }: SceneComponentProps) {
         ref={reactCanvas}
         className={`absolute focus-visible:outline-none ${loading && 'hidden'}`}
       />
-      {loading && (
+      {loading ? (
         <div className="flex size-full items-center justify-center bg-teal-700">
           <p className="animate-pulse text-3xl">Loading</p>
         </div>
+      ) : (
+        <CameraRefresh />
       )}
     </>
   );
