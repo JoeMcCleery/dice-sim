@@ -3,7 +3,7 @@ import { Engine } from '@babylonjs/core';
 import { createScene, scene } from 'scripts/scene';
 
 type SceneComponentProps = {
-  onSceneReady: () => void;
+  onSceneReady: () => Promise<void>;
   onRender: () => void;
 };
 

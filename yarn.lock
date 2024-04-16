@@ -231,6 +231,11 @@
   dependencies:
     "@types/emscripten" "^1.39.6"
 
+"@babylonjs/loaders@^7.2.1":
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/@babylonjs/loaders/-/loaders-7.2.1.tgz#f86233183e760436ae617f9da1d038f002ab325a"
+  integrity sha512-h3WlHxslnXPL+55P8HTWFCddNRrInK0faTld3GCepo3vh50XZ9gzTGOQGDYsIsfDH/aQSUB4Pxxv1DFWUOrptw==
+
 "@esbuild/aix-ppc64@0.20.2":
   version "0.20.2"
   resolved "https://registry.yarnpkg.com/@esbuild/aix-ppc64/-/aix-ppc64-0.20.2.tgz#a70f4ac11c6a1dfc18b8bbb13284155d933b9537"

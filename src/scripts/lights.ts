@@ -29,7 +29,7 @@ export const createHemisphericLight = () => {
     Vector3.Up(),
     scene,
   );
-  hemisphericLight.intensity = 0.2;
+  hemisphericLight.intensity = 0.5;
 };
 
 export const enableShadows = (mesh: AbstractMesh, enable: boolean) => {

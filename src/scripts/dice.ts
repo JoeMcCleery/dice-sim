@@ -1,41 +1,68 @@
 import {
   Mesh,
-  MeshBuilder,
   PhysicsBody,
+  PhysicsMaterial,
   PhysicsMotionType,
   PhysicsShapeConvexHull,
+  SceneLoader,
   Vector3,
 } from '@babylonjs/core';
+import '@babylonjs/loaders/glTF';
 import { DiceType } from 'types/dice';
 import { enableShadows } from './lights';
 import { scene } from './scene';
+import diceModel from 'assets/dice.glb?url';
 //import { physicsViewer } from './debug';
 
 export let diceMeshes: { [type in DiceType]: Mesh };
 export let diceShapes: { [type in DiceType]: PhysicsShapeConvexHull };
-export let diceContainers: { [type in DiceType]: [Mesh, PhysicsBody][] };
+export let diceContainers: {
+  [type in DiceType]: [Mesh, PhysicsBody][];
+};
 
 export const initDiceAsync = async () => {
-  // Import/create meshes
+  // Load meshes
+  const dice = await SceneLoader.ImportMeshAsync('', diceModel);
+
+  // Disable all template meshes (disable root node)
+  dice.meshes.forEach(m => (m.isVisible = false));
+
+  // Set mesh templates
   diceMeshes = {
-    [DiceType.D4]: MeshBuilder.CreateBox(DiceType.D4),
-    [DiceType.D6]: MeshBuilder.CreateBox(DiceType.D6),
-    [DiceType.D8]: MeshBuilder.CreateBox(DiceType.D8),
-    [DiceType.D10]: MeshBuilder.CreateBox(DiceType.D10),
-    [DiceType.D12]: MeshBuilder.CreateBox(DiceType.D12),
-    [DiceType.D20]: MeshBuilder.CreateIcoSphere(DiceType.D20, {
-      subdivisions: 1,
-    }),
+    [DiceType.D4]: scene.getMeshByName('MODEL_D4') as Mesh,
+    [DiceType.D6]: scene.getMeshByName('MODEL_D6') as Mesh,
+    [DiceType.D8]: scene.getMeshByName('MODEL_D8') as Mesh,
+    [DiceType.D10]: scene.getMeshByName('MODEL_D10') as Mesh,
+    [DiceType.D12]: scene.getMeshByName('MODEL_D12') as Mesh,
+    [DiceType.D20]: scene.getMeshByName('MODEL_D20') as Mesh,
   };
 
   // Create shapes
   diceShapes = {
-    [DiceType.D4]: new PhysicsShapeConvexHull(diceMeshes[DiceType.D4], scene),
-    [DiceType.D6]: new PhysicsShapeConvexHull(diceMeshes[DiceType.D6], scene),
-    [DiceType.D8]: new PhysicsShapeConvexHull(diceMeshes[DiceType.D8], scene),
-    [DiceType.D10]: new PhysicsShapeConvexHull(diceMeshes[DiceType.D10], scene),
-    [DiceType.D12]: new PhysicsShapeConvexHull(diceMeshes[DiceType.D12], scene),
-    [DiceType.D20]: new PhysicsShapeConvexHull(diceMeshes[DiceType.D20], scene),
+    [DiceType.D4]: new PhysicsShapeConvexHull(
+      scene.getMeshByName('SHAPE_D4') as Mesh,
+      scene,
+    ),
+    [DiceType.D6]: new PhysicsShapeConvexHull(
+      scene.getMeshByName('SHAPE_D6') as Mesh,
+      scene,
+    ),
+    [DiceType.D8]: new PhysicsShapeConvexHull(
+      scene.getMeshByName('SHAPE_D8') as Mesh,
+      scene,
+    ),
+    [DiceType.D10]: new PhysicsShapeConvexHull(
+      scene.getMeshByName('SHAPE_D10') as Mesh,
+      scene,
+    ),
+    [DiceType.D12]: new PhysicsShapeConvexHull(
+      scene.getMeshByName('SHAPE_D12') as Mesh,
+      scene,
+    ),
+    [DiceType.D20]: new PhysicsShapeConvexHull(
+      scene.getMeshByName('SHAPE_D20') as Mesh,
+      scene,
+    ),
   };
 
   // Create dice containers
@@ -49,12 +76,10 @@ export const initDiceAsync = async () => {
   };
 
   // Create shape physics material
-  const physicsMaterial = { restitution: 0.7 };
+  const physicsMaterial: PhysicsMaterial = { restitution: 0.7, friction: 0.3 };
 
   for (const type of Object.values(DiceType)) {
-    // Hide template mesh
-    diceMeshes[type].isVisible = false;
-    // Set shape material
+    // Set shape physics material
     diceShapes[type].material = physicsMaterial;
   }
 };
@@ -77,7 +102,7 @@ export const throwDice = (type: DiceType, count: number) => {
   const position = new Vector3(0, 5, 0);
   for (let i = 0; i < count; i++) {
     // Create new mesh from template
-    const mesh = meshTemplate.clone();
+    const mesh = meshTemplate.clone(`${type}_${i}`);
     mesh.isVisible = true;
     // Enable shadows
     enableShadows(mesh, true);

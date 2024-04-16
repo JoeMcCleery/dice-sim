@@ -13,13 +13,19 @@ import { scene } from './scene';
 
 export const createEnvironment = () => {
   // Create ground
-  const ground = MeshBuilder.CreateGround(
-    'ground',
-    { width: 20, height: 20 },
+  const ground = MeshBuilder.CreateBox('ground', {
+    width: 20,
+    height: 10,
+    depth: 20,
+  });
+  ground.position.y = -5;
+  ground.receiveShadows = true;
+  new PhysicsAggregate(
+    ground,
+    PhysicsShapeType.BOX,
+    { mass: 0, friction: 0.3 },
     scene,
   );
-  ground.receiveShadows = true;
-  new PhysicsAggregate(ground, PhysicsShapeType.BOX, { mass: 0 }, scene);
 
   // Create walls
   const wallShape = new PhysicsShapeBox(
@@ -28,7 +34,7 @@ export const createEnvironment = () => {
     new Vector3(1, 200, 20),
     scene,
   );
-  wallShape.material = { restitution: 1 };
+  wallShape.material = { restitution: 1, friction: 0 };
   // Left
   const wall_l = new TransformNode('wall_l');
   wall_l.position.x = -10.5;
