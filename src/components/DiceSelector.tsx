@@ -25,7 +25,7 @@ function DiceSelector({ type, value, onChange }: DiceSelectorProps) {
           type="button"
           value="-"
           title={`Decrease ${type} count`}
-          className="input hidden w-8 rounded-r-none font-bold lg:inline-block"
+          className="input hidden w-8 rounded-r-none font-bold md:inline-block"
           onClick={decrease}
         />
         <select
@@ -33,7 +33,7 @@ function DiceSelector({ type, value, onChange }: DiceSelectorProps) {
           name={type}
           value={value}
           title={`Select ${type} count`}
-          className="input lg:rounded-none"
+          className="input md:rounded-none"
           onChange={e => onChange(type, parseInt(e.target.value))}
         >
           {options.map((option, idx) => (
@@ -46,7 +46,7 @@ function DiceSelector({ type, value, onChange }: DiceSelectorProps) {
           type="button"
           value="+"
           title={`Increase ${type} count`}
-          className="input hidden w-8 rounded-l-none font-bold lg:inline-block"
+          className="input hidden w-8 rounded-l-none font-bold md:inline-block"
           onClick={increase}
         />
       </div>

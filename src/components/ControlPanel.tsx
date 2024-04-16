@@ -34,7 +34,7 @@ function ControlPanel() {
 
   return (
     <form className="flex flex-col space-y-4">
-      <div className="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-2">
+      <div className="flex space-x-2 md:flex-col md:space-x-0 md:space-y-2">
         {diceTypes.map((type, idx) => (
           <DiceSelector
             key={idx}
