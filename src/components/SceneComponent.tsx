@@ -30,7 +30,7 @@ function SceneComponent({ onSceneReady, onRender }: SceneComponentProps) {
     window.addEventListener('resize', resize);
 
     // Render loop
-    const render = () => {
+    const renderLoop = () => {
       onRender();
       scene.render();
     };
@@ -45,7 +45,7 @@ function SceneComponent({ onSceneReady, onRender }: SceneComponentProps) {
       setLoading(false);
 
       // Run render loop
-      engine.runRenderLoop(() => render());
+      engine.runRenderLoop(renderLoop);
     });
 
     // Dispose

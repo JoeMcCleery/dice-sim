@@ -100,6 +100,7 @@ export const throwDice = (type: DiceType, count: number) => {
     dice[0].dispose();
     dice[1].dispose();
   });
+  container.length = 0;
 
   // No dice to throw
   if (count < 1) return;
