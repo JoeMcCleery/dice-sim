@@ -1,10 +1,12 @@
 import {
+  Color3,
   Mesh,
   PhysicsBody,
   PhysicsMaterial,
   PhysicsMotionType,
   PhysicsShapeConvexHull,
   SceneLoader,
+  StandardMaterial,
   Vector3,
 } from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
@@ -75,10 +77,17 @@ export const initDiceAsync = async () => {
     [DiceType.D20]: [],
   };
 
+  // Create dice material
+  const material = new StandardMaterial('dice_mat', scene);
+  material.diffuseColor = new Color3(15 / 255, 118 / 255, 110 / 255);
+
   // Create shape physics material
   const physicsMaterial: PhysicsMaterial = { restitution: 0.7, friction: 1 };
 
   for (const type of Object.values(DiceType)) {
+    // Set dice material
+    diceMeshes[type].material = material;
+
     // Set shape physics material
     diceShapes[type].material = physicsMaterial;
   }

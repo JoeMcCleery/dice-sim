@@ -1,4 +1,5 @@
 import {
+  Color3,
   MeshBuilder,
   PhysicsAggregate,
   PhysicsBody,
@@ -6,75 +7,78 @@ import {
   PhysicsShapeBox,
   PhysicsShapeType,
   Quaternion,
+  StandardMaterial,
   TransformNode,
   Vector3,
 } from '@babylonjs/core';
 import { scene } from './scene';
 
+const numSides = 6;
+const radius = 10;
+const groundHeight = 5;
+const wallHeight = 300;
+const wallThickness = 5;
+
 export const createEnvironment = () => {
+  // Create environment material
+  const material = new StandardMaterial('env_mat', scene);
+  material.diffuseColor = Color3.White();
+  material.specularColor = Color3.Black();
+
   // Create ground
-  const ground = MeshBuilder.CreateBox('ground', {
-    width: 20,
-    height: 5,
-    depth: 20,
+  const ground = MeshBuilder.CreateCylinder('ground', {
+    height: groundHeight,
+    diameter: radius * 2.0,
+    tessellation: numSides,
   });
-  ground.position.y = -2.5;
+  ground.material = material;
+  ground.position.y = -groundHeight / 2.0;
   ground.receiveShadows = true;
   new PhysicsAggregate(
     ground,
-    PhysicsShapeType.BOX,
+    PhysicsShapeType.CONVEX_HULL,
     { mass: 0, friction: 0.5 },
     scene,
   );
 
   // Create walls
   const wallShape = new PhysicsShapeBox(
-    Vector3.Up().scale(100),
+    Vector3.Up().scale(wallHeight / 2.0 - groundHeight),
     Quaternion.Identity(),
-    new Vector3(5, 210, 30),
+    new Vector3(
+      (Math.PI * radius * 2.0) / numSides + wallThickness,
+      wallHeight,
+      wallThickness,
+    ),
     scene,
   );
   wallShape.material = { restitution: 0.8, friction: 0 };
-  // Left
-  const wall_l = new TransformNode('wall_l');
-  wall_l.position.x = -12.5;
-  const wallBody_l = new PhysicsBody(
-    wall_l,
-    PhysicsMotionType.STATIC,
-    false,
-    scene,
+  for (let i = 0; i < numSides; i++) {
+    const wallSegment = new TransformNode(`wall_${i}`);
+    const midPoint = getCirclePoint(i)
+      .add(getCirclePoint(i + 1))
+      .scale(0.5);
+    const forward = midPoint.normalizeToNew();
+    wallSegment.position = midPoint.add(forward.scale(wallThickness / 2.0));
+    wallSegment.rotationQuaternion = Quaternion.FromLookDirectionLH(
+      forward,
+      Vector3.Up(),
+    );
+    const wallSegmentBody = new PhysicsBody(
+      wallSegment,
+      PhysicsMotionType.STATIC,
+      false,
+      scene,
+    );
+    wallSegmentBody.shape = wallShape;
+  }
+};
+
+const getCirclePoint = (i: number) => {
+  i %= numSides;
+  return new Vector3(
+    radius * Math.cos((Math.PI * 2.0 * i) / numSides),
+    0,
+    radius * Math.sin((Math.PI * 2.0 * i) / numSides),
   );
-  wallBody_l.shape = wallShape;
-  // Right
-  const wall_r = new TransformNode('wall_r');
-  wall_r.position.x = 12.5;
-  const wallBody_r = new PhysicsBody(
-    wall_r,
-    PhysicsMotionType.STATIC,
-    false,
-    scene,
-  );
-  wallBody_r.shape = wallShape;
-  // Back
-  const wall_b = new TransformNode('wall_b');
-  wall_b.position.z = 12.5;
-  wall_b.rotation = new Vector3(0, Math.PI / 2, 0);
-  const wallBody_b = new PhysicsBody(
-    wall_b,
-    PhysicsMotionType.STATIC,
-    false,
-    scene,
-  );
-  wallBody_b.shape = wallShape;
-  // Front
-  const wall_f = new TransformNode('wall_f');
-  wall_f.position.z = -12.5;
-  wall_f.rotation = new Vector3(0, Math.PI / 2, 0);
-  const wallBody_f = new PhysicsBody(
-    wall_f,
-    PhysicsMotionType.STATIC,
-    false,
-    scene,
-  );
-  wallBody_f.shape = wallShape;
 };

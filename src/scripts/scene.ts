@@ -5,6 +5,7 @@ import {
   HavokPlugin,
   Vector3,
   Engine,
+  Color4,
 } from '@babylonjs/core';
 import HavokPhysics from '@babylonjs/havok';
 
@@ -23,6 +24,9 @@ export const createScene = async (engine: Engine) => {
   const havokInstance = await HavokPhysics();
   const havokPlugin = new HavokPlugin(true, havokInstance);
   scene.enablePhysics(new Vector3(0, -80, 0), havokPlugin);
+
+  // Set colours
+  scene.clearColor = new Color4(15 / 255, 118 / 255, 110 / 255);
 
   // Wait untill scene is ready
   await scene.whenReadyAsync();

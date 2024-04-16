@@ -13,7 +13,7 @@ export let shadowGenerator: ShadowGenerator;
 export const createDirectionalLight = () => {
   directionalLight = new DirectionalLight(
     'directional',
-    new Vector3(0, -1, 0.5),
+    new Vector3(0.2, -1, -0.1),
     scene,
   );
   directionalLight.intensity = 0.5;
@@ -30,6 +30,7 @@ export const createHemisphericLight = () => {
     scene,
   );
   hemisphericLight.intensity = 0.5;
+  //hemisphericLight.diffuse = new Color3(15 / 255, 118 / 255, 110 / 255);
 };
 
 export const enableShadows = (mesh: AbstractMesh, enable: boolean) => {
