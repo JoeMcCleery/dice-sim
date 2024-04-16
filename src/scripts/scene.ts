@@ -22,7 +22,7 @@ export const createScene = async (engine: Engine) => {
   // Enable havok physics
   const havokInstance = await HavokPhysics();
   const havokPlugin = new HavokPlugin(true, havokInstance);
-  scene.enablePhysics(new Vector3(0, -50, 0), havokPlugin);
+  scene.enablePhysics(new Vector3(0, -80, 0), havokPlugin);
 
   // Wait untill scene is ready
   await scene.whenReadyAsync();

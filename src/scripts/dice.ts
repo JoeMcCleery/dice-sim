@@ -76,7 +76,7 @@ export const initDiceAsync = async () => {
   };
 
   // Create shape physics material
-  const physicsMaterial: PhysicsMaterial = { restitution: 0.7, friction: 0.3 };
+  const physicsMaterial: PhysicsMaterial = { restitution: 0.7, friction: 1 };
 
   for (const type of Object.values(DiceType)) {
     // Set shape physics material
@@ -99,7 +99,7 @@ export const throwDice = (type: DiceType, count: number) => {
   const meshTemplate = diceMeshes[type];
 
   // Create dice!
-  const position = new Vector3(0, 5, 0);
+  const position = new Vector3(0, 8, 0);
   for (let i = 0; i < count; i++) {
     // Create new mesh from template
     const mesh = meshTemplate.clone(`${type}_${i}`);
@@ -107,14 +107,14 @@ export const throwDice = (type: DiceType, count: number) => {
     // Enable shadows
     enableShadows(mesh, true);
     // Set random position and rotation
-    mesh.position = position.add(Vector3.Random(-1, 1));
+    mesh.position = position.add(Vector3.Random(-3, 3));
     mesh.rotation = Vector3.Random(-Math.PI, Math.PI);
     // Create body
     const body = new PhysicsBody(mesh, PhysicsMotionType.DYNAMIC, false, scene);
     body.shape = diceShapes[type];
     // Set random velocity
-    body.setLinearVelocity(Vector3.Random(-20, 20), i);
-    body.setAngularVelocity(Vector3.Random(-10, 10), i);
+    body.setLinearVelocity(Vector3.Random(-20, 20));
+    body.setAngularVelocity(Vector3.Random(-10, 10));
     // Add to container
     container.push([mesh, body]);
 
