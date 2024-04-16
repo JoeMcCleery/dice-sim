@@ -93,15 +93,20 @@ export const initDiceAsync = async () => {
   }
 };
 
-export const throwDice = (type: DiceType, count: number) => {
-  // Remove previous dice
-  const container = diceContainers[type];
-  container.forEach(dice => {
-    dice[0].dispose();
-    dice[1].dispose();
+export const resetDice = () => {
+  // Loop dice types
+  Object.values(diceContainers).forEach(container => {
+    // Dispose previous dice
+    container.forEach(dice => {
+      dice[0].dispose();
+      dice[1].dispose();
+    });
+    // Clear container
+    container.length = 0;
   });
-  container.length = 0;
+};
 
+export const throwDice = (type: DiceType, count: number) => {
   // No dice to throw
   if (count < 1) return;
 
@@ -126,7 +131,7 @@ export const throwDice = (type: DiceType, count: number) => {
     body.setLinearVelocity(Vector3.Random(-20, 20));
     body.setAngularVelocity(Vector3.Random(-10, 10));
     // Add to container
-    container.push([mesh, body]);
+    diceContainers[type].push([mesh, body]);
 
     // DEBUG
     // physicsViewer.showBody(body);

@@ -1,7 +1,7 @@
 import { DiceType } from 'types/dice';
 import DiceSelector from 'components/DiceSelector';
 import { MouseEvent, useState } from 'react';
-import { throwDice } from 'scripts/dice';
+import { resetDice, throwDice } from 'scripts/dice';
 import { scene } from 'scripts/scene';
 
 function ControlPanel() {
@@ -21,6 +21,8 @@ function ControlPanel() {
     e.preventDefault();
     // Cannot throw dice without scene
     if (!scene || scene.isDisposed) return;
+    // Reset dice
+    resetDice();
     // Throw the dice!
     for (let i = 0; i < values.length; i++) {
       throwDice(diceTypes[i], values[i]);
