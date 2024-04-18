@@ -4,6 +4,7 @@ import {
   Vector3,
 } from '@babylonjs/core';
 import { scene } from './scene';
+import { envRadius } from './environment';
 
 const defaultPosition = new Vector3(-15, 25, 0);
 
@@ -15,17 +16,20 @@ export const resetCamera = () => {
 
 export const createCamera = () => {
   camera = new ArcRotateCamera('camera1', 0, 0, 0, Vector3.Zero(), scene);
-  camera.panningSensibility = 0;
   camera.upperBetaLimit = Math.PI / 2;
   camera.setPosition(defaultPosition);
   camera.attachControl(scene.getEngine().getRenderingCanvas());
-  camera.inputs.removeByType('ArcRotateCameraMouseWheelInput');
-  const pointersInput = camera.inputs.attached[
-    'pointers'
-  ] as ArcRotateCameraPointersInput;
-  pointersInput.multiTouchPanAndZoom = false;
-  pointersInput.multiTouchPanning = false;
-  pointersInput.pinchZoom = false;
+  camera.panningDistanceLimit = envRadius;
+  camera.lowerRadiusLimit = 2;
+  camera.upperRadiusLimit = 100;
+  //camera.panningSensibility = 0;
+  //camera.inputs.removeByType('ArcRotateCameraMouseWheelInput');
+  // const pointersInput = camera.inputs.attached[
+  //   'pointers'
+  // ] as ArcRotateCameraPointersInput;
+  //pointersInput.multiTouchPanAndZoom = false;
+  //pointersInput.multiTouchPanning = false;
+  //pointersInput.pinchZoom = false;
 
   return camera;
 };

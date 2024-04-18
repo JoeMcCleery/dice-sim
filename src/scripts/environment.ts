@@ -14,7 +14,7 @@ import {
 import { scene } from './scene';
 
 const numSides = 6;
-const radius = 10;
+export const envRadius = 10;
 const groundHeight = 5;
 const wallHeight = 300;
 const wallThickness = 5;
@@ -28,7 +28,7 @@ export const createEnvironment = () => {
   // Create ground
   const ground = MeshBuilder.CreateCylinder('ground', {
     height: groundHeight,
-    diameter: radius * 2.0,
+    diameter: envRadius * 2.0,
     tessellation: numSides,
   });
   ground.material = material;
@@ -46,7 +46,7 @@ export const createEnvironment = () => {
     Vector3.Up().scale(wallHeight / 2.0 - groundHeight),
     Quaternion.Identity(),
     new Vector3(
-      (Math.PI * radius * 2.0) / numSides + wallThickness,
+      (Math.PI * envRadius * 2.0) / numSides + wallThickness,
       wallHeight,
       wallThickness,
     ),
@@ -77,8 +77,8 @@ export const createEnvironment = () => {
 const getCirclePoint = (i: number) => {
   i %= numSides;
   return new Vector3(
-    radius * Math.cos((Math.PI * 2.0 * i) / numSides),
+    envRadius * Math.cos((Math.PI * 2.0 * i) / numSides),
     0,
-    radius * Math.sin((Math.PI * 2.0 * i) / numSides),
+    envRadius * Math.sin((Math.PI * 2.0 * i) / numSides),
   );
 };
