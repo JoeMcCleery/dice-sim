@@ -1,4 +1,4 @@
-import { DiceType } from 'types/dice';
+import { DiceType } from 'scripts/dice';
 
 type DiceSelectorProps = {
   type: DiceType;

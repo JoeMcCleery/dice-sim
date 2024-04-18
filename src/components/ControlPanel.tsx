@@ -1,7 +1,6 @@
-import { DiceType } from 'types/dice';
 import DiceSelector from 'components/DiceSelector';
 import { MouseEvent, useState } from 'react';
-import { resetDice, throwDice } from 'scripts/dice';
+import { resetDice, throwDice, DiceType } from 'scripts/dice';
 import { scene } from 'scripts/scene';
 
 function ControlPanel() {

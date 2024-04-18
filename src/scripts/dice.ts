@@ -11,7 +11,6 @@ import {
   Vector3,
 } from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
-import { DiceType } from 'types/dice';
 import { enableShadows } from './lights';
 import { scene } from './scene';
 import diceModel from 'assets/dice.glb?url';
@@ -24,6 +23,15 @@ export let diceShapes: { [type in DiceType]: PhysicsShapeConvexHull };
 export let diceContainers: {
   [type in DiceType]: [Mesh, PhysicsBody][];
 };
+
+export enum DiceType {
+  D4 = 'D4',
+  D6 = 'D6',
+  D8 = 'D8',
+  D10 = 'D10',
+  D12 = 'D12',
+  D20 = 'D20',
+}
 
 export const initDiceAsync = async () => {
   // Load meshes
