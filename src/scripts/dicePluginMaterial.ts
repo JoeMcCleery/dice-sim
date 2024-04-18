@@ -77,7 +77,7 @@ export default class DicePluginMaterial extends MaterialPluginBase {
                 uniform highp sampler2D sdfTexture;
 
                 vec4 getBaseColour() {
-	                float sdf = smoothstep(0.7, 0.73, texture2D(sdfTexture, vDiffuseUV).r);
+	                float sdf = smoothstep(0.7, 0.71, texture2D(sdfTexture, vDiffuseUV).r);
                   return mix(diceColour, vDiffuseColor, sdf);
                 }
             `,
