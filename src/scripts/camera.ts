@@ -1,6 +1,6 @@
 import {
   ArcRotateCamera,
-  ArcRotateCameraPointersInput,
+  //ArcRotateCameraPointersInput,
   Vector3,
 } from '@babylonjs/core';
 import { scene } from './scene';
