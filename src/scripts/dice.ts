@@ -5,6 +5,7 @@ import {
   PhysicsMaterial,
   PhysicsMotionType,
   PhysicsShapeConvexHull,
+  RegisterMaterialPlugin,
   SceneLoader,
   StandardMaterial,
   Texture,
@@ -16,6 +17,7 @@ import { scene } from './scene';
 import diceModel from 'assets/dice.glb?url';
 import fontAtlas from 'assets/font-atlas.png?url';
 import d4fontAtlas from 'assets/d4-font-atlas.png?url';
+import DicePluginMaterial from 'scripts/dicePluginMaterial';
 //import { physicsViewer } from './debug';
 
 export let diceMeshes: { [type in DiceType]: Mesh };
@@ -88,14 +90,27 @@ export const initDiceAsync = async () => {
     [DiceType.D20]: [],
   };
 
+  // Register dice material plugin
+  RegisterMaterialPlugin('DiceMaterial', material => {
+    material.dice = new DicePluginMaterial(
+      material,
+      new Color3(15 / 255, 118 / 255, 110 / 255),
+    );
+    return material.dice;
+  });
+
   // Create dice material
-  const material = new StandardMaterial('dice_mat', scene);
-  material.diffuseColor = new Color3(15 / 255, 118 / 255, 110 / 255);
+  const material = new StandardMaterial('dice_mat');
+  material.diffuseTexture = new Texture(fontAtlas, scene, {
+    invertY: false,
+  });
   // Create d4 material
   const d4material = material.clone('d4_mat');
-  // Set material textures
-  material.diffuseTexture = new Texture(fontAtlas, scene, { invertY: false });
-  d4material.diffuseTexture = new Texture(d4fontAtlas, scene, {
+  // Set plugin valuse
+  material.dice.texture = new Texture(fontAtlas, scene, {
+    invertY: false,
+  });
+  d4material.dice.texture = new Texture(d4fontAtlas, scene, {
     invertY: false,
   });
 

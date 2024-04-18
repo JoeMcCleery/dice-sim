@@ -5,7 +5,7 @@ import {
 } from '@babylonjs/core';
 import { scene } from './scene';
 
-const defaultPosition = new Vector3(-20, 30, 0);
+const defaultPosition = new Vector3(-15, 25, 0);
 
 export let camera: ArcRotateCamera;
 
