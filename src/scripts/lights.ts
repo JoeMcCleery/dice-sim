@@ -13,7 +13,7 @@ export let shadowGenerator: ShadowGenerator;
 export const createDirectionalLight = () => {
   directionalLight = new DirectionalLight(
     'directional',
-    new Vector3(0.2, -1, -0.1),
+    new Vector3(0.3, -1, -0.15),
     scene,
   );
   directionalLight.intensity = 0.5;
