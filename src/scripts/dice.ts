@@ -35,6 +35,10 @@ export enum DiceType {
   D20 = 'D20',
 }
 
+interface StandardDiceMaterial extends StandardMaterial {
+  dice: DicePluginMaterial;
+}
+
 export const initDiceAsync = async () => {
   // Load meshes
   const dice = await SceneLoader.ImportMeshAsync('', diceModel);
@@ -92,20 +96,21 @@ export const initDiceAsync = async () => {
 
   // Register dice material plugin
   RegisterMaterialPlugin('DiceMaterial', material => {
-    material.dice = new DicePluginMaterial(
+    const plugin = new DicePluginMaterial(
       material,
       new Color3(15 / 255, 118 / 255, 110 / 255),
     );
-    return material.dice;
+    (material as StandardDiceMaterial).dice = plugin;
+    return plugin;
   });
 
   // Create dice material
-  const material = new StandardMaterial('dice_mat');
+  const material = new StandardMaterial('dice_mat') as StandardDiceMaterial;
   material.diffuseTexture = new Texture(fontAtlas, scene, {
     invertY: false,
   });
   // Create d4 material
-  const d4material = material.clone('d4_mat');
+  const d4material = material.clone('d4_mat') as StandardDiceMaterial;
   // Set dice textures
   material.dice.texture = new Texture(fontAtlas, scene, {
     invertY: false,

@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   AbstractMesh,
   Color3,
-  Color4,
   Engine,
   Material,
   MaterialDefines,
   MaterialPluginBase,
   Scene,
   SubMesh,
+  Texture,
   UniformBuffer,
 } from '@babylonjs/core';
 
@@ -15,8 +16,8 @@ import {
  * Extend from MaterialPluginBase to create your plugin.
  */
 export default class DicePluginMaterial extends MaterialPluginBase {
-  texture = null;
-  colour = new Color3();
+  texture: Texture = new Texture('');
+  colour: Color3 = new Color3();
 
   constructor(material: Material, diceColour: Color3) {
     // the second parameter is the name of this plugin.
@@ -32,7 +33,7 @@ export default class DicePluginMaterial extends MaterialPluginBase {
 
   // Also, you should always associate a define with your plugin because the list of defines (and their values)
   // is what triggers a recompilation of the shader: a shader is recompiled only if a value of a define changes.
-  prepareDefines(defines: MaterialDefines, scene: Scene, mesh: AbstractMesh) {
+  prepareDefines(defines: MaterialDefines, _scene: Scene, _mesh: AbstractMesh) {
     defines['DICE'] = true;
   }
 
@@ -58,9 +59,9 @@ export default class DicePluginMaterial extends MaterialPluginBase {
 
   bindForSubMesh(
     uniformBuffer: UniformBuffer,
-    scene: Scene,
-    engine: Engine,
-    subMesh: SubMesh,
+    _scene: Scene,
+    _engine: Engine,
+    _subMesh: SubMesh,
   ) {
     uniformBuffer.updateColor4('diceColour', this.colour, 1.0);
     uniformBuffer.setTexture('sdfTexture', this.texture);
