@@ -106,7 +106,7 @@ export const initDiceAsync = async () => {
   });
   // Create d4 material
   const d4material = material.clone('d4_mat');
-  // Set plugin valuse
+  // Set dice textures
   material.dice.texture = new Texture(fontAtlas, scene, {
     invertY: false,
   });
