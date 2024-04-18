@@ -12,6 +12,7 @@ export let camera: ArcRotateCamera;
 
 export const resetCamera = () => {
   camera.setPosition(defaultPosition);
+  camera.setTarget(Vector3.Zero());
 };
 
 export const createCamera = () => {
