@@ -7,6 +7,7 @@ import {
   PhysicsShapeConvexHull,
   SceneLoader,
   StandardMaterial,
+  Texture,
   Vector3,
 } from '@babylonjs/core';
 import '@babylonjs/loaders/glTF';
@@ -14,6 +15,7 @@ import { DiceType } from 'types/dice';
 import { enableShadows } from './lights';
 import { scene } from './scene';
 import diceModel from 'assets/dice.glb?url';
+import fontAtlas from 'assets/font-atlas.png?url';
 //import { physicsViewer } from './debug';
 
 export let diceMeshes: { [type in DiceType]: Mesh };
@@ -80,6 +82,8 @@ export const initDiceAsync = async () => {
   // Create dice material
   const material = new StandardMaterial('dice_mat', scene);
   material.diffuseColor = new Color3(15 / 255, 118 / 255, 110 / 255);
+  const texture = new Texture(fontAtlas, scene, { invertY: false });
+  material.diffuseTexture = texture;
 
   // Create shape physics material
   const physicsMaterial: PhysicsMaterial = { restitution: 0.7, friction: 1 };
