@@ -16,6 +16,7 @@ import { enableShadows } from './lights';
 import { scene } from './scene';
 import diceModel from 'assets/dice.glb?url';
 import fontAtlas from 'assets/font-atlas.png?url';
+import d4fontAtlas from 'assets/d4-font-atlas.png?url';
 //import { physicsViewer } from './debug';
 
 export let diceMeshes: { [type in DiceType]: Mesh };
@@ -82,15 +83,20 @@ export const initDiceAsync = async () => {
   // Create dice material
   const material = new StandardMaterial('dice_mat', scene);
   material.diffuseColor = new Color3(15 / 255, 118 / 255, 110 / 255);
-  const texture = new Texture(fontAtlas, scene, { invertY: false });
-  material.diffuseTexture = texture;
+  // Create d4 material
+  const d4material = material.clone('d4_mat');
+  // Set material textures
+  material.diffuseTexture = new Texture(fontAtlas, scene, { invertY: false });
+  d4material.diffuseTexture = new Texture(d4fontAtlas, scene, {
+    invertY: false,
+  });
 
   // Create shape physics material
   const physicsMaterial: PhysicsMaterial = { restitution: 0.7, friction: 1 };
 
   for (const type of Object.values(DiceType)) {
     // Set dice material
-    diceMeshes[type].material = material;
+    diceMeshes[type].material = type == DiceType.D4 ? d4material : material;
 
     // Set shape physics material
     diceShapes[type].material = physicsMaterial;
