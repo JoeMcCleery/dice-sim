@@ -23,7 +23,9 @@ export const createCamera = () => {
   camera.panningDistanceLimit = envRadius;
   camera.lowerRadiusLimit = 2;
   camera.upperRadiusLimit = 100;
-  //camera.panningSensibility = 0;
+  camera.panningSensibility = 200;
+  camera.wheelPrecision = 10;
+  camera.useNaturalPinchZoom = true;
   //camera.inputs.removeByType('ArcRotateCameraMouseWheelInput');
   // const pointersInput = camera.inputs.attached[
   //   'pointers'
@@ -31,6 +33,18 @@ export const createCamera = () => {
   //pointersInput.multiTouchPanAndZoom = false;
   //pointersInput.multiTouchPanning = false;
   //pointersInput.pinchZoom = false;
+
+  let prevRadius = camera.radius;
+  scene.beforeRender = () => {
+    let ratio = 1;
+    if (prevRadius != camera.radius) {
+      ratio = prevRadius / camera.radius;
+      prevRadius = camera.radius;
+
+      camera.panningSensibility *= ratio;
+      camera.wheelPrecision *= ratio;
+    }
+  };
 
   return camera;
 };
