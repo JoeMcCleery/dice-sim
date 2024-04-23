@@ -190,12 +190,10 @@ export const initDiceAsync = async () => {
 };
 
 export const resetDice = () => {
-  const physicsEngine = scene.getPhysicsEngine() as PhysicsEngineV2;
   // Loop dice types
   Object.values(diceContainers).forEach(container => {
     // Dispose previous dice
     container.forEach(dice => {
-      physicsEngine.removeBody(dice[1]);
       dice[0].dispose();
       dice[1].dispose();
     });
