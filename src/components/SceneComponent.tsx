@@ -5,10 +5,10 @@ import CameraRefresh from './ResetSceneButton';
 
 type SceneComponentProps = {
   onSceneReady: () => Promise<void>;
-  onRender: () => void;
+  onPostRender: () => void;
 };
 
-function SceneComponent({ onSceneReady, onRender }: SceneComponentProps) {
+function SceneComponent({ onSceneReady, onPostRender }: SceneComponentProps) {
   const reactCanvas: MutableRefObject<null | HTMLCanvasElement> = useRef(null);
   const [loading, setLoading] = useState(true);
 
@@ -32,8 +32,8 @@ function SceneComponent({ onSceneReady, onRender }: SceneComponentProps) {
 
     // Render loop
     const renderLoop = () => {
-      onRender();
       scene.render();
+      onPostRender();
     };
 
     // Create scene
@@ -59,7 +59,7 @@ function SceneComponent({ onSceneReady, onRender }: SceneComponentProps) {
         window.removeEventListener('resize', resize);
       }
     };
-  }, [onRender, onSceneReady]);
+  }, [onPostRender, onSceneReady]);
 
   return (
     <>

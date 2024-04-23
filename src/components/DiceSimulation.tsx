@@ -1,6 +1,6 @@
 import { createCamera } from 'scripts/camera';
 import { createDirectionalLight, createHemisphericLight } from 'scripts/lights';
-import { initDiceAsync } from 'scripts/dice';
+import { getDiceNumbers, initDiceAsync } from 'scripts/dice';
 import { createEnvironment } from 'scripts/environment';
 //import { createPhysicsViewer } from 'scripts/debug';
 import SceneComponent from './SceneComponent';
@@ -24,9 +24,14 @@ function DiceSimulation() {
     //createPhysicsViewer();
   }
 
-  function onRender() {}
+  function onPostRender() {
+    // TODO get dice number results once simulation is stable
+    // const numbers = getDiceNumbers();
+  }
 
-  return <SceneComponent onSceneReady={onSceneReady} onRender={onRender} />;
+  return (
+    <SceneComponent onSceneReady={onSceneReady} onPostRender={onPostRender} />
+  );
 }
 
 export default DiceSimulation;
