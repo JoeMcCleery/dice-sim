@@ -1,9 +1,7 @@
 import {
   Color3,
-  HavokPlugin,
   Mesh,
   PhysicsBody,
-  PhysicsEngineV2,
   PhysicsMaterial,
   PhysicsMotionType,
   PhysicsShapeConvexHull,
@@ -20,6 +18,7 @@ import diceModel from 'assets/dice.glb?url';
 import fontAtlas from 'assets/font-atlas.png?url';
 import d4fontAtlas from 'assets/d4-font-atlas.png?url';
 import DicePluginMaterial from 'scripts/dicePluginMaterial';
+import Observable from './observer';
 //import { physicsViewer } from './debug';
 
 export enum DiceType {
@@ -35,6 +34,7 @@ interface StandardDiceMaterial extends StandardMaterial {
   dice: DicePluginMaterial;
 }
 
+export let simulating = false;
 export let diceMeshes: { [type in DiceType]: Mesh };
 export let diceShapeMeshes: { [type in DiceType]: Mesh };
 export let diceShapeNormals: { [type in DiceType]: Vector3[] };
@@ -42,6 +42,7 @@ export let diceShapes: { [type in DiceType]: PhysicsShapeConvexHull };
 export let diceContainers: {
   [type in DiceType]: [Mesh, PhysicsBody][];
 };
+export const resultsObserver = new Observable<Map<DiceType, number[]>>();
 
 const normalIndexToNumber = {
   [DiceType.D4]: [2, 4, 3, 1],
@@ -149,10 +150,12 @@ export const initDiceAsync = async () => {
   });
   // Create d4 material
   const d4material = material.clone('d4_mat') as StandardDiceMaterial;
-  // Set dice textures
+  // Setup material plugin
+  material.dice.isEnabled = true;
   material.dice.texture = new Texture(fontAtlas, scene, {
     invertY: false,
   });
+  d4material.dice.isEnabled = true;
   d4material.dice.texture = new Texture(d4fontAtlas, scene, {
     invertY: false,
   });
@@ -187,6 +190,10 @@ export const initDiceAsync = async () => {
         return notAdded ? seen.push(n) : false;
       });
   }
+};
+
+export const setSimulating = (isSimulating: boolean) => {
+  simulating = isSimulating;
 };
 
 export const resetDice = () => {
@@ -237,22 +244,17 @@ export const throwDice = (type: DiceType, count: number) => {
   }
 };
 
-export const getDiceNumbers = () => {
-  const result: { [type in DiceType]: number[] } = {
-    [DiceType.D4]: [],
-    [DiceType.D6]: [],
-    [DiceType.D8]: [],
-    [DiceType.D10]: [],
-    [DiceType.D12]: [],
-    [DiceType.D20]: [],
-  };
+export const calculateResult = () => {
+  const result = new Map<DiceType, number[]>();
 
   const normal = Vector3.Zero();
   const down = Vector3.Down();
 
   for (const type of Object.values(DiceType)) {
     const container = diceContainers[type];
-    const resultType = result[type];
+    if (container.length == 0) continue;
+
+    const resultType = [];
     const normals = diceShapeNormals[type];
 
     for (const [mesh] of container) {
@@ -270,10 +272,12 @@ export const getDiceNumbers = () => {
       }
 
       const number = normalIndexToNumber[type][bestI];
-      console.log(number);
       resultType.push(number);
     }
+
+    result.set(type, resultType);
   }
 
-  return result;
+  // Notify subscribers
+  resultsObserver.notify(result);
 };

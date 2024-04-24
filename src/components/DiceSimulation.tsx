@@ -1,12 +1,23 @@
 import { createCamera } from 'scripts/camera';
 import { createDirectionalLight, createHemisphericLight } from 'scripts/lights';
-import { getDiceNumbers, initDiceAsync } from 'scripts/dice';
+import {
+  DiceType,
+  diceContainers,
+  calculateResult,
+  initDiceAsync,
+  setSimulating,
+  simulating,
+} from 'scripts/dice';
 import { createEnvironment } from 'scripts/environment';
-//import { createPhysicsViewer } from 'scripts/debug';
 import SceneComponent from './SceneComponent';
+import { enablePhysics, havokInstance, havokPlugin } from 'scripts/physics';
+//import { PhysicsActivationControl } from '@babylonjs/core';
 
 function DiceSimulation() {
   async function onSceneReady() {
+    // Enable physics
+    await enablePhysics();
+
     // Create camera
     createCamera();
 
@@ -25,8 +36,25 @@ function DiceSimulation() {
   }
 
   function onPostRender() {
-    // TODO get dice number results once simulation is stable
-    // const numbers = getDiceNumbers();
+    // Ignore if simulation stopped
+    if (!simulating) return;
+
+    // Check if any dice are still moving
+    const active = Object.values(DiceType).some(type => {
+      return diceContainers[type].some(([, body]) => {
+        const state = havokInstance.HP_Body_GetActivationState(
+          body._pluginData.hpBodyId,
+        )[1];
+        return state == havokPlugin._hknp.ActivationState.ACTIVE;
+      });
+    });
+    if (active) return;
+
+    // No longer simulating as all dice are inactive
+    setSimulating(false);
+
+    // Calculate simulation result
+    calculateResult();
   }
 
   return (

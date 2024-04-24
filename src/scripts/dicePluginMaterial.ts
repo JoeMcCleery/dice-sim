@@ -18,6 +18,23 @@ export default class DicePluginMaterial extends MaterialPluginBase {
   texture: Texture = new Texture('');
   colour: Color3 = new Color3();
 
+  // we can add an enabled flag to be able to toggle the plugin on and off.
+  get isEnabled() {
+    return this._isEnabled;
+  }
+
+  set isEnabled(enabled) {
+    if (this._isEnabled === enabled) {
+      return;
+    }
+    this._isEnabled = enabled;
+    // when it's changed, we need to mark the material as dirty so the shader is rebuilt.
+    this.markAllDefinesAsDirty();
+    this._enable(this._isEnabled);
+  }
+
+  _isEnabled = false;
+
   constructor(material: Material, diceColour: Color3) {
     // the second parameter is the name of this plugin.
     // the third one is a priority, which lets you define the order multiple plugins are run. Lower numbers run first.
@@ -25,15 +42,12 @@ export default class DicePluginMaterial extends MaterialPluginBase {
     super(material, 'DiceMaterial', 200, { DICE: false });
 
     this.colour = diceColour;
-
-    // let's enable it by default
-    this._enable(true);
   }
 
   // Also, you should always associate a define with your plugin because the list of defines (and their values)
   // is what triggers a recompilation of the shader: a shader is recompiled only if a value of a define changes.
   prepareDefines(defines: MaterialDefines, _scene: Scene, _mesh: AbstractMesh) {
-    defines['DICE'] = true;
+    defines['DICE'] = this._isEnabled;
   }
 
   getClassName() {

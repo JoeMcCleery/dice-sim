@@ -1,6 +1,12 @@
 import DiceSelector from 'components/DiceSelector';
 import { MouseEvent, useState } from 'react';
-import { resetDice, throwDice, DiceType } from 'scripts/dice';
+import {
+  resetDice,
+  throwDice,
+  DiceType,
+  setSimulating,
+  resultsObserver,
+} from 'scripts/dice';
 import { scene } from 'scripts/scene';
 
 function ControlPanel() {
@@ -22,10 +28,14 @@ function ControlPanel() {
     if (!scene || scene.isDisposed) return;
     // Reset dice
     resetDice();
+    // Reset result
+    resultsObserver.notify(new Map<DiceType, number[]>());
     // Throw the dice!
     for (let i = 0; i < values.length; i++) {
       throwDice(diceTypes[i], values[i]);
     }
+    // Set simulating
+    setSimulating(true);
   }
 
   function reset(e: MouseEvent<HTMLInputElement>) {

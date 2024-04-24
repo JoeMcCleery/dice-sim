@@ -1,7 +1,8 @@
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Engine } from '@babylonjs/core';
 import { createScene, scene } from 'scripts/scene';
-import CameraRefresh from './ResetSceneButton';
+import CameraRefresh from 'components/ResetSceneButton';
+import SimulationResult from 'components/SimulationResult';
 
 type SceneComponentProps = {
   onSceneReady: () => Promise<void>;
@@ -72,7 +73,10 @@ function SceneComponent({ onSceneReady, onPostRender }: SceneComponentProps) {
           <p className="animate-pulse text-3xl">Loading</p>
         </div>
       ) : (
-        <CameraRefresh />
+        <>
+          <SimulationResult />
+          <CameraRefresh />
+        </>
       )}
     </>
   );
