@@ -19,13 +19,19 @@ function DiceSelector({ type, value, onChange }: DiceSelectorProps) {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <label htmlFor={type}>{type}</label>
+      <label
+        htmlFor={type}
+        className="input w-full select-none rounded-b-none px-0 text-center font-bold"
+        onClick={() => increase()}
+      >
+        {type}
+      </label>
       <div className="flex">
         <input
           type="button"
           value="-"
           title={`Decrease ${type} count`}
-          className="input hidden w-8 rounded-r-none font-bold md:inline-block"
+          className="input hidden w-8 rounded-r-none rounded-tl-none font-bold md:inline-block"
           onClick={decrease}
         />
         <select
@@ -33,7 +39,7 @@ function DiceSelector({ type, value, onChange }: DiceSelectorProps) {
           name={type}
           value={value}
           title={`Select ${type} count`}
-          className="input md:rounded-none"
+          className="input rounded-t-none md:rounded-none"
           onChange={e => onChange(type, parseInt(e.target.value))}
         >
           {options.map((option, idx) => (
@@ -46,7 +52,7 @@ function DiceSelector({ type, value, onChange }: DiceSelectorProps) {
           type="button"
           value="+"
           title={`Increase ${type} count`}
-          className="input hidden w-8 rounded-l-none font-bold md:inline-block"
+          className="input hidden w-8 rounded-l-none rounded-tr-none font-bold md:inline-block"
           onClick={increase}
         />
       </div>
