@@ -4,19 +4,19 @@
 
 @layer components {
   .btn {
-    @apply inline-block cursor-pointer rounded bg-gray-600 px-6 py-2 text-gray-50 hover:bg-gray-700;
+    @apply inline-block cursor-pointer rounded bg-gray-600 px-6 py-2 text-gray-50 hover:bg-gray-700 disabled:cursor-default disabled:bg-gray-400;
   }
 
   .btn-blue {
-    @apply btn bg-sky-700 text-sky-50 hover:bg-sky-800;
+    @apply btn bg-sky-700 text-sky-50 hover:bg-sky-800 disabled:bg-sky-500;
   }
 
   .btn-red {
-    @apply btn bg-red-500 text-red-50 hover:bg-red-600;
+    @apply btn bg-red-500 text-red-50 hover:bg-red-600 disabled:bg-red-300;
   }
 
   .btn-teal {
-    @apply btn bg-teal-500 text-teal-50 hover:bg-teal-600;
+    @apply btn bg-teal-500 text-teal-50 hover:bg-teal-600 disabled:bg-teal-300;
   }
 
   .input {
