@@ -43,6 +43,8 @@ function ControlPanel() {
     setValues(defaultValues);
   }
 
+  const diceSelected = values.some(value => value > 0);
+
   return (
     <form className="flex flex-col space-y-4">
       <div className="flex space-x-2 md:flex-col md:space-x-0 md:space-y-2">
@@ -61,15 +63,17 @@ function ControlPanel() {
           type="submit"
           value="Roll!"
           title="Roll the dice!"
-          className="btn-blue"
+          className="btn-blue font-bold"
           onClick={submit}
+          disabled={!diceSelected}
         />
         <input
           type="reset"
           value="Reset"
           title="Reset dice counts"
-          className="btn-red"
+          className="btn-red font-bold"
           onClick={reset}
+          disabled={!diceSelected}
         />
       </div>
     </form>
