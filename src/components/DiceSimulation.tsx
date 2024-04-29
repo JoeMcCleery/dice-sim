@@ -14,6 +14,8 @@ import { enablePhysics, havokInstance, havokPlugin } from 'scripts/physics';
 import { PhysicsMotionType, Vector3 } from '@babylonjs/core';
 //import { PhysicsActivationControl } from '@babylonjs/core';
 
+let timeout: number;
+
 function DiceSimulation() {
   async function onSceneReady() {
     // Enable physics
@@ -67,18 +69,33 @@ function DiceSimulation() {
         );
       });
     });
-    if (active) return;
 
-    // Set dice static
-    Object.values(DiceType).forEach(type => {
-      return diceContainers[type].forEach(([, body]) => {
-        body.setMotionType(PhysicsMotionType.STATIC);
+    // Still simulating
+    if (active) {
+      // Reset timeout
+      if (timeout > -1) {
+        clearTimeout(timeout);
+        timeout = -1;
+      }
+      return;
+    }
+
+    // If timeout running do nothing
+    if (timeout > -1) return;
+
+    // Stop simulating after small delay
+    timeout = setTimeout(() => {
+      // Stop simulation
+      setSimulating(false);
+      // Set dice static
+      Object.values(DiceType).forEach(type => {
+        return diceContainers[type].forEach(([, body]) => {
+          body.setMotionType(PhysicsMotionType.STATIC);
+        });
       });
-    });
-    // Stop simulation
-    setSimulating(false);
-    // Calculate simulation result
-    calculateResult();
+      // Calculate simulation result
+      calculateResult();
+    }, 300);
   }
 
   return (
